@@ -1,212 +1,299 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rand Converter</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-        }
-        body {
-            background: linear-gradient(145deg, #f8fafc 0%, #e2e8f0 100%);
-            min-height: 100vh;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
-        }
-        .card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            border-radius: 2rem;
-            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.25), 0 2px 8px rgba(0, 0, 0, 0.05);
-            padding: 2rem 2rem 2.2rem;
-            max-width: 480px;
-            width: 100%;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            transition: 0.2s;
-        }
-        h1 {
-            font-size: 1.8rem;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            margin: 0 0 2rem 0;
-            color: #0b1e33;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .input-group {
-            margin-bottom: 1.5rem;
-        }
-        label {
-            display: block;
-            font-weight: 500;
-            font-size: 0.9rem;
-            color: #1e2f44;
-            margin-bottom: 0.5rem;
-            letter-spacing: 0.02em;
-            text-transform: uppercase;
-        }
-        .input-wrapper {
-            display: flex;
-            align-items: center;
-            background: white;
-            border: 2px solid #dbe1e9;
-            border-radius: 1.2rem;
-            padding: 0.2rem 0.2rem 0.2rem 1rem;
-            transition: 0.2s;
-            box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.02);
-        }
-        .input-wrapper:focus-within {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
-        }
-        .currency-symbol {
-            font-weight: 600;
-            font-size: 1.3rem;
-            color: #3b82f6;
-            margin-right: 4px;
-        }
-        input {
-            border: none;
-            outline: none;
-            font-size: 1.5rem;
-            font-weight: 600;
-            padding: 0.8rem 0.8rem 0.8rem 0.2rem;
-            width: 100%;
-            background: transparent;
-            color: #0b1e33;
-            letter-spacing: 0.5px;
-        }
-        input::placeholder {
-            color: #a0b3c9;
-            font-weight: 400;
-            font-size: 1.2rem;
-        }
-        /* remove spinners */
-        input[type=number]::-webkit-outer-spin-button,
-        input[type=number]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        input[type=number] {
-            -moz-appearance: textfield;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b1e33">
+<meta name="description" content="Quick loan repayment calculator">
+<title>Informal Blesser</title>
 
-        .output-area {
-            background: #0b1e33;
-            border-radius: 1.5rem;
-            padding: 1.6rem 1.8rem;
-            margin: 0 0 0.5rem 0;
-            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3), 0 10px 20px -8px rgba(0, 0, 0, 0.4);
-            border: 1px solid #263b51;
-        }
-        .output-label {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 500;
-            color: #8aa3c0;
-            margin-bottom: 0.3rem;
-        }
-        .output-value {
-            font-size: 3rem;
-            font-weight: 700;
-            color: #e6f0ff;
-            line-height: 1.2;
-            word-break: break-word;
-            display: flex;
-            align-items: baseline;
-            gap: 4px;
-        }
-        .output-currency {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: #3b82f6;
-            margin-right: 6px;
-        }
-        .badge {
-            background: #3b82f6;
-            color: white;
-            font-size: 0.7rem;
-            font-weight: 600;
-            padding: 0.2rem 0.6rem;
-            border-radius: 30px;
-            letter-spacing: 0.3px;
-            margin-left: 6px;
-            text-transform: uppercase;
-        }
-    </style>
+<style>
+  /* ---------- Reset & base ---------- */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(160deg, #f8fafc 0%, #e2e8f0 100%);
+    color: #0b1e33;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+
+  /* ---------- Layout ---------- */
+  .app {
+    width: 100%;
+    max-width: 480px;
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ---------- Header ---------- */
+  .header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.2rem;
+    padding: 0 0.25rem;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .brand-icon {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 11px;
+    color: #fff;
+    font-size: 1.2rem;
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  }
+
+  /* ---------- Card ---------- */
+  .card {
+    background: #fff;
+    border: 1px solid rgba(11, 30, 51, 0.04);
+    border-radius: 1.5rem;
+    padding: 1.4rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 20px -4px rgba(11, 30, 51, 0.08);
+  }
+
+  label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+
+  /* ---------- Input ---------- */
+  .input-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 0 0.9rem;
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 0.9rem;
+    transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+  }
+
+  .input-wrapper:focus-within {
+    background: #fff;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+  }
+
+  .prefix {
+    margin-right: 4px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #3b82f6;
+  }
+
+  input {
+    flex: 1;
+    width: 100%;
+    padding: 0.85rem 0;
+    font: inherit;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #0b1e33;
+    background: transparent;
+    border: none;
+    outline: none;
+  }
+
+  input::placeholder { color: #94a3b8; font-weight: 500; }
+
+  /* Remove number input spinners */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] { -moz-appearance: textfield; }
+
+  /* ---------- Output ---------- */
+  .output-card {
+    padding: 1.8rem 1.5rem;
+    color: #fff;
+    background: linear-gradient(135deg, #0b1e33, #1e3a5f);
+    border-radius: 1.5rem;
+    box-shadow: 0 12px 30px -8px rgba(11, 30, 51, 0.5);
+  }
+
+  .out-label {
+    margin-bottom: 0.4rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #8aa3c0;
+  }
+
+  .out-value {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    font-size: 2.8rem;
+    font-weight: 800;
+    line-height: 1.1;
+    word-break: break-word;
+  }
+
+  .out-value .cur {
+    margin-right: 6px;
+    font-size: 1.6rem;
+    color: #60a5fa;
+  }
+
+  /* ---------- Signature ---------- */
+  .signature {
+    margin-top: auto;
+    padding: 0.5rem 0.75rem 0 0;
+    text-align: right;
+    font-family: "Brush Script MT", "Segoe Script", "Dancing Script", cursive;
+    font-size: 1.15rem;
+    font-style: italic;
+    letter-spacing: 0.5px;
+    color: #64748b;
+    opacity: 0.75;
+  }
+
+  .signature::before {
+    content: "— ";
+    font-style: normal;
+    color: #94a3b8;
+  }
+</style>
 </head>
+
 <body>
-    <div class="card">
-        <h1>
-            💵 Rand Converter
-            <span class="badge">fixed rate</span>
-        </h1>
+  <div class="app">
 
-        <!-- input field -->
-        <div class="input-group">
-            <label for="amountInput">Amount in Rand (R)</label>
-            <div class="input-wrapper">
-                <span class="currency-symbol">R</span>
-                <input type="number" id="amountInput" value="3300" step="0.01" min="0" placeholder="0.00" autofocus>
-            </div>
-        </div>
+    <!-- Header -->
+    <header class="header">
+      <div class="brand">
+        <span class="brand-icon" aria-hidden="true">💰</span>
+        <span>Informal Blesser</span>
+      </div>
+    </header>
 
-        <!-- output display -->
-        <div class="output-area">
-            <div class="output-label">Calculated output</div>
-            <div class="output-value">
-                <span class="output-currency">R</span>
-                <span id="outputValue">4620.00</span>
-            </div>
-        </div>
-    </div>
+    <!-- Loan amount input -->
+    <section class="card">
+      <label for="loanAmount">Loan Amount (R)</label>
+      <div class="input-wrapper">
+        <span class="prefix" aria-hidden="true">R</span>
+        <input
+          id="loanAmount"
+          type="number"
+          inputmode="numeric"
+          value="3300"
+          step="50"
+          min="0"
+          max="100000000"
+          placeholder="0"
+          aria-label="Loan amount in Rand"
+        >
+      </div>
+    </section>
 
-    <script>
-        (function() {
-            const input = document.getElementById('amountInput');
-            const outputSpan = document.getElementById('outputValue');
-            const MULTIPLIER = 1.4;
+    <!-- Result -->
+    <section class="output-card" aria-live="polite">
+      <div class="out-label">Total Repayment</div>
+      <div class="out-value">
+        <span class="cur" aria-hidden="true">R</span>
+        <span id="totalOut">4 620,00</span>
+      </div>
+    </section>
 
-            function formatCurrency(value) {
-                const num = typeof value === 'number' ? value : parseFloat(value);
-                if (isNaN(num) || !isFinite(num)) return '0.00';
-                return num.toLocaleString('en-ZA', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
-            }
+    <!-- Signature -->
+    <div class="signature">Vuja Tsoaela</div>
 
-            function updateOutput() {
-                let rawValue = input.value.trim();
-                if (rawValue === '') {
-                    outputSpan.textContent = formatCurrency(0);
-                    return;
-                }
-                let amount = parseFloat(rawValue);
-                if (isNaN(amount)) {
-                    outputSpan.textContent = formatCurrency(0);
-                    return;
-                }
-                if (amount < 0) amount = 0;
-                const result = amount * MULTIPLIER;
-                outputSpan.textContent = formatCurrency(result);
-            }
+  </div>
 
-            input.addEventListener('input', updateOutput);
-            input.addEventListener('change', updateOutput);
+  <script>
+  (function () {
+    "use strict";
 
-            if (input.value === '' || input.value === undefined) {
-                input.value = 3300;
-            }
-            updateOutput();
-        })();
-    </script>
+    /* ---------- Config ---------- */
+    var RATE = 1.4;              // fixed multiplier
+    var MAX_AMOUNT = 1e8;        // clamp to avoid layout blowout on silly input
+
+    /* ---------- DOM ---------- */
+    var inputEl = document.getElementById("loanAmount");
+    var outputEl = document.getElementById("totalOut");
+
+    /* Bail out safely if the DOM is somehow missing (defensive) */
+    if (!inputEl || !outputEl) return;
+
+    /* ---------- Helpers ---------- */
+
+    /**
+     * Parse a user-supplied value into a safe, non-negative number.
+     * Returns 0 for empty, invalid, negative, or infinite input.
+     */
+    function safeParse(raw) {
+      var n = parseFloat(raw);
+      if (!isFinite(n) || isNaN(n) || n < 0) return 0;
+      return Math.min(n, MAX_AMOUNT);
+    }
+
+    /**
+     * Format a number as South African Rand with 2 decimals
+     * and a space as thousands separator (e.g. "4 620,00").
+     */
+    function formatRand(n) {
+      return n
+        .toLocaleString("en-ZA", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        })
+        .replace(/,/g, " ");
+    }
+
+    /* ---------- Render ---------- */
+    function render() {
+      var amount = safeParse(inputEl.value);
+      var total = amount * RATE;
+
+      /* Guard against overflow just in case */
+      if (!isFinite(total)) total = 0;
+
+      outputEl.textContent = formatRand(total);
+    }
+
+    /* ---------- Events ---------- */
+    inputEl.addEventListener("input", render);
+
+    /* ---------- Init ---------- */
+    render();
+  })();
+  </script>
 </body>
 </html>
