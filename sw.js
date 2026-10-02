@@ -1,7 +1,7 @@
 /* Informal Blesser — service worker
    Caches the app shell so it works offline. */
 
-const CACHE_NAME = "blesser-v2";
+const CACHE_NAME = "blesser-v4";
 const ASSETS = [
   "./",
   "./index.html",
