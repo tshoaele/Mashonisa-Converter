@@ -232,7 +232,7 @@
       <div class="out-label">Total Repayment</div>
       <div class="out-value">
         <span class="cur" aria-hidden="true">R</span>
-        <span id="totalOut">4 620,00</span>
+        <span id="totalOut">4620</span>
       </div>
     </section>
 
@@ -269,16 +269,11 @@
     }
 
     /*
-     * Format a number as South African Rand with 2 decimals
-     * and a space as thousands separator (e.g. "4 620,00").
+     * Round to the nearest whole number and return as an integer string.
+     * No decimals, no thousand separators. E.g. 4620 -> "4620".
      */
-    function formatRand(n) {
-      return n
-        .toLocaleString("en-ZA", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2
-        })
-        .replace(/,/g, " ");
+    function formatWhole(n) {
+      return Math.round(n).toString();
     }
 
     /* ---------- Render ---------- */
@@ -289,7 +284,7 @@
       /* Guard against overflow just in case */
       if (!isFinite(total)) total = 0;
 
-      outputEl.textContent = formatRand(total);
+      outputEl.textContent = formatWhole(total);
     }
 
     /* ---------- Events ---------- */
